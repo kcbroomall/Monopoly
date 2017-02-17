@@ -1,15 +1,23 @@
 import React, { Component } from 'react'
+import { rules } from '../static/rules'
 
 class DiceRoll extends Component {
   constructor (props) {
     super(props)
     this.handleDiceRollButtonClick = this.handleDiceRollButtonClick.bind(this)
-    this.handleDoubles = this.handleDoubles.bind(this)
-    this.handleAddDiceRollToUserPosition = this.handleAddDiceRollToUserPosition.bind(this)
-    this.handleLandOnOrPassGo = this.handleLandOnOrPassGo.bind(this)
+    this.handleMoveTokenButtonClick = this.handleMoveTokenButtonClick.bind(this)
     this.handleEndTurnButtonClick = this.handleEndTurnButtonClick.bind(this)
+    this.handleDoubles = this.handleDoubles.bind(this)
+    this.handleLandOnOrPassGo = this.handleLandOnOrPassGo.bind(this)
     this.handleChanceCard = this.handleChanceCard.bind(this)
     this.handleCommunity = this.handleCommunity.bind(this)
+    this.increaseFunds = this.increaseFunds.bind(this)
+    this.reduceFunds = this.reduceFunds.bind(this)
+    this.buyProperty = this.buyProperty.bind(this)
+    this.mortgageProperty = this.mortgageProperty.bind(this)
+    this.unMortgageProperty = this.unMortgageProperty.bind(this)
+    this.buyHouse = this.buyHouse.bind(this)
+    this.sellHouse = this.sellHouse.bind(this)
 
     this.state = {
       dice: [],
@@ -19,13 +27,18 @@ class DiceRoll extends Component {
       doublesComment: '',
       currentUser: 0,
       diceRollButtonVisible: true,
+      moveTokenButtonVisible: false,
       // needs to be updated gamestate authentication
       endTurnButtonVisible: false,
       userNames: ['Jeremy', 'Kyle', 'RJ', 'Joseph', 'Jeff', 'Justin', 'Jerry', 'Nino'],
       // up to 8 players all starting on GO or position 1
       userPositions: [0, 0, 0, 0, 0, 0, 0, 0],
       jailPositions: [0, 0, 0, 0, 0, 0, 0, 0],
-      userMoney: [1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500]
+      userMoney: [1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500],
+      userProperties: [[], [], [], [], [], [], [], []],
+      // todo: property: [{'PropertyObj': {PropertyObj}, 'Mortaged': false, 'Houses': 0,
+      // 'Position': 0}],
+      passGoComment: ''
     }
   }
 
@@ -40,17 +53,15 @@ class DiceRoll extends Component {
         doubles: 0,
         doublesComment: '',
         diceRollButtonVisible: false,
-        endTurnButtonVisible: true
-
+        moveTokenButtonVisible: true,
+        endTurnButtonVisible: false
       })
-
     }
     else if (die1 === die2) {
       this.handleDoubles(die1, die2)
       this.setState({
         dice: [die1, die2]
       })
-      this.handleAddDiceRollToUserPosition(die1, die2, this.state.doubles)
     } else {
       this.setState({
         dice: [die1, die2],
@@ -59,17 +70,20 @@ class DiceRoll extends Component {
         doubles: 0,
         doublesComment: '',
         diceRollButtonVisible: false,
-        endTurnButtonVisible: true
+        moveTokenButtonVisible: true,
+        endTurnButtonVisible: false
       })
-      this.handleAddDiceRollToUserPosition(die1, die2)
     }
   }
-
+  
   handleEndTurnButtonClick () {
     let newCurrentUser = (this.state.currentUser + 1) % this.state.userPositions.length
     this.setState({
       currentUser: newCurrentUser,
       diceRollButtonVisible: true,
+      doublesComment: '',
+      passGoComment: '',
+      moveTokenButtonVisible: false,
       endTurnButtonVisible: false
     })
   }
@@ -81,7 +95,9 @@ class DiceRoll extends Component {
         diceSum: die1 + die2,
         diceSumComment: '',
         doubles: this.state.doubles += 1,
-        doublesComment: `${this.state.userNames[this.state.currentUser]} rolled doubles! Move ${die1 + die2} spaces on the board, and roll again!`
+        doublesComment: `${this.state.userNames[this.state.currentUser]} rolled doubles! Move ${die1 + die2} spaces on the board, and roll again!`,
+        diceRollButtonVisible: false,
+        moveTokenButtonVisible: true
       })
     } else if (this.state.doubles === 1) {
       this.setState({
@@ -89,64 +105,88 @@ class DiceRoll extends Component {
         diceSum: die1 + die2,
         diceSumComment: '',
         doubles: this.state.doubles += 1,
-        doublesComment: `${this.state.userNames[this.state.currentUser]} rolled doubles! Move ${die1 + die2} spaces on the board, and roll again!`
+        doublesComment: `${this.state.userNames[this.state.currentUser]} rolled doubles! Move ${die1 + die2} spaces on the board, and roll again!`,
+        diceRollButtonVisible: false,
+        moveTokenButtonVisible: true
       })
     } else if (this.state.doubles === 2) {
-      let updatedUserPositions = this.state.userPositions
-      updatedUserPositions[this.state.currentUser] = 10
+      // let updatedUserPositions = this.state.userPositions
+      // updatedUserPositions[this.state.currentUser] = 10
       this.setState({
         dice: this.state.dice,
         diceSum: die1 + die2,
         diceSumComment: '',
-        doubles: 0,
+        doubles: 3,
         doublesComment: `${this.state.userNames[this.state.currentUser]} rolled doubles three times in a row. Go to Jail. :(`,
         diceRollButtonVisible: false,
-        endTurnButtonVisible: true,
-        userPositions: 10
+        moveTokenButtonVisible: true
+        // userPositions: updatedUserPositions
       })
     }
   }
 
-  handleAddDiceRollToUserPosition (die1, die2, doubles) {
-    console.log('handleAddDiceRollToUserPosition has been invoked!', this.state.userPositions[this.state.currentUser], die1 + die2)
+  handleMoveTokenButtonClick () {
+    let die1 = this.state.dice[0]
+    let die2 = this.state.dice[1]
+    let doubles = this.state.doubles
+    console.log('diceroll.jsx line 121. Doubles = ', doubles)
+    // console.log('handleMoveTokenButtonClick has been invoked!', this.state.userPositions[this.state.currentUser], die1 + die2)
     // store userPositions array
     let updatedUserPositions = this.state.userPositions
     // current player's old position
     let oldCurrentUserPosition = updatedUserPositions[this.state.currentUser]
+    let jail = this.state.jailPositions[this.state.currentUser]
     // update current player's position based on diceroll
     let updatedCurrentUserPosition = (oldCurrentUserPosition + die1 + die2) % 40
     // update the userPositions array with the new current players position
-    updatedUserPositions[this.state.currentUser] = 7
+    updatedUserPositions[this.state.currentUser] = updatedCurrentUserPosition
     // store userMoney array
-    let userMoney = this.state.userMoney
-    if (updatedUserPositions[this.state.currentUser] === 7 || updatedUserPositions[this.state.currentUser] === 22 || updatedUserPositions[this.state.currentUser] === 36 ) {
+    let userMoney = this.state.userMoney[this.state.currentUser]
+    // if the user lands on Chance space
+    if (updatedCurrentUserPosition === 7 || updatedCurrentUserPosition === 22 || updatedCurrentUserPosition === 36 ) {
       this.handleChanceCard(updatedUserPositions, userMoney)
     }
-    if (updatedUserPositions[this.state.currentUser] === 2 || updatedUserPositions[this.state.currentUser] === 17 || updatedUserPositions[this.state.currentUser] === 33 ) {
+    // if the user lands on a Community Chest space
+    else if (updatedCurrentUserPosition === 2 || updatedCurrentUserPosition === 17 || updatedCurrentUserPosition === 33 ) {
       this.handleCommunity(updatedUserPositions, userMoney)
     }
-    // update the current user to the next user
-    if (updatedCurrentUserPosition === 30) {
+    // if the user lands on Go-to-jail
+    else if (updatedCurrentUserPosition === 30 || doubles === 3) {
       updatedCurrentUserPosition = 10
       updatedUserPositions[this.state.currentUser] = updatedCurrentUserPosition
-      updatedJailPositions = this.state.jailPositions
+      let updatedJailPositions = this.state.jailPositions
+      jail = 1
       updatedJailPositions[this.state.currentUser] = 1
       this.setState({
         userPositions: updatedUserPositions,
         jailPositions: updatedJailPositions,
-        doublesComment: 'You landed on Go-To-Jail. Go To Jail. Go Directly To Jail. Do Not Pass' +
-        ' Go. Do Not Collect $200.'
+        doublesComment: this.state.doublesComment || 'You landed on Go-To-Jail. Go To Jail. Go' +
+          ' Directly To Jail. Do' +
+          ' Not Pass' +
+        ' Go. Do Not Collect $200.',
+        moveTokenButtonVisible: false,
+        endTurnButtonVisible: true
       })
     }
-    else {
-      // check if the user is landing on or passing go, NOTE still need to deal with jail
-      this.handleLandOnOrPassGo(oldCurrentUserPosition, updatedCurrentUserPosition)
+    if(doubles === 1 || doubles === 2) {
       this.setState({
-        // currentUser: newCurrentUser,
-        userPositions: updatedUserPositions
+        userPositions: updatedUserPositions,
+        moveTokenButtonVisible: false,
+        diceRollButtonVisible: true
       })
     }
-    this.props.dice(this.state.userPositions)
+
+    // todo: for now the below works for every other space not specified
+    else {
+      this.setState({
+        userPositions: updatedUserPositions,
+        moveTokenButtonVisible: false,
+        endTurnButtonVisible: true
+      })
+    }
+
+    this.handleLandOnOrPassGo(oldCurrentUserPosition, updatedCurrentUserPosition, jail)
+    this.props.dice(this.state.userPositions, this.state.userMoney)
   }
 
   handleChanceCard (updatedUserPositions, userMoney) {
@@ -244,12 +284,123 @@ class DiceRoll extends Component {
   }
 
   handleLandOnOrPassGo (oldCurrentUserPosition, updatedCurrentUserPosition, jail) {
+    console.log('handleLandOnOrPassGo')
     if (!jail) {
       if (updatedCurrentUserPosition < oldCurrentUserPosition) {
-        // give the currentUser $200
+        console.log('dice_roll.jsx line 278, handleLandOnOrPassGo function has been invoked.' +
+          ' Jail = ', jail)
+        let updatedUserMoney = this.state.userMoney
+        updatedUserMoney[this.state.currentUser] += 200
         this.setState({
+          userMoney: updatedUserMoney
         })
       }
+    }
+  }
+
+  increaseFunds (value) {
+    this.setState = {
+      money: (this.state.money + value)
+    }
+  }
+
+  reduceFunds (value) {
+    this.setState = {
+      money: (this.state.money - value)
+    }
+  }
+
+  buyProperty (propertyPosition) {
+    let propertiesArray = this.state.property
+    let propertyPrice = 0
+    let newProperty = { PropertyObj: {}, Mortgaged: false, Houses: 0, Position: propertyPosition }
+    rules.Properties.forEach((property) => {
+      if (property.BOARD_POSITION === propertyPosition) {
+        propertyPrice = property.PRICE
+        newProperty.PropertyObj = property
+        propertiesArray.push(newProperty)
+      }
+    })
+    this.reduceFunds(propertyPrice)
+    this.setState = {
+      property: propertiesArray
+    }
+  }
+
+  mortgageProperty (propertyPosition) {
+    let tempProperty = this.state.property
+    let mortgageAmount = 0
+    tempProperty.forEach((property) => {
+      if (property.Position === propertyPosition) {
+        property.Mortgaged = true
+        mortgageAmount = property.PropertyObj.MORTGAGE_PRICE
+      }
+    })
+    this.increaseFunds(mortgageAmount)
+    this.setState = {
+      property: tempProperty
+    }
+  }
+
+  unMortgageProperty (propertyPosition) {
+    let tempProperty = this.state.property
+    let unMortgageAmount = 0
+    tempProperty.forEach((property) => {
+      if (property.Position === propertyPosition && property.Mortgaged) {
+        property.Mortgaged = false
+        unMortgageAmount = property.PropertyObj.UNMORTGAGE_PRICE
+      }
+    })
+    this.reduceFunds(unMortgageAmount)
+    this.setState = {
+      property: tempProperty
+    }
+  }
+
+  buyHouse (propertyPosition) {
+    let propertiesArray = this.state.property
+    let housePrice = 0
+    let numberOfPropsNeededForMonopoly = 0
+    let propertyGroup = ''
+    propertiesArray.forEach((property) => {
+      if (property.Position === propertyPosition && property.PropertyObj.ALLOWS_HOUSES && property.Houses < 5) {
+        housePrice = property.PropertyObj.HOUSE_PRICE
+        numberOfPropsNeededForMonopoly = property.PropertyObj.NUMBER_OF_PROPERTIES_IN_GROUP
+        propertyGroup = property.PropertyObj.PROPERTY_GROUP
+        property.Houses += 1
+      }
+    })
+    let propertiesInGroupCount = propertiesArray.reduce((numberOfPropertiesInGroup, property) => {
+      if (property.PropertyObj.PROPERTY_GROUP === propertyGroup) {
+        numberOfPropertiesInGroup += 1
+      }
+    }, 0)
+    if (numberOfPropsNeededForMonopoly === propertiesInGroupCount && this.state.money >= housePrice) {
+      this.reduceFunds(housePrice)
+      this.setState = {
+        property: propertiesArray
+      }
+    } else {
+      if (this.state.money < housePrice) {
+        console.log('You do not have sufficient funds to purchase additional houses')
+      } else {
+        console.log(`You need ${numberOfPropsNeededForMonopoly} properties in order to have a monopoly, but you only have ${propertiesInGroupCount}.`)
+      }
+    }
+  }
+
+  sellHouse (propertyPosition) {
+    let propertiesArray = this.state.property
+    let houseSalePrice = 0
+    propertiesArray.forEach((property) => {
+      if (property.Position === propertyPosition && property.Houses > 0) {
+        houseSalePrice = property.PropertyObj.HOUSE_SALE_PRICE
+        property.Houses -= 1
+      }
+    })
+    this.increaseFunds(houseSalePrice)
+    this.setState = {
+      property: propertiesArray
     }
   }
 
@@ -260,28 +411,48 @@ class DiceRoll extends Component {
           <div className='dice'>
             {this.state.diceRollButtonVisible ? `${this.state.userNames[this.state.currentUser]} it is your turn. Roll the dice!` : null}
             <div className='die1'>
-              {this.state.dice[0] && this.state.endTurnButtonVisible? 'die1: ' : null} {this.state.endTurnButtonVisible? this.state.dice[0] : null}
+              {this.state.dice[0] && this.state.moveTokenButtonVisible? 'die1: ' : null} {this.state.moveTokenButtonVisible? this.state.dice[0] : null}
             </div>
             <div className='die2'>
-              {this.state.dice[1] && this.state.endTurnButtonVisible? 'die2: ' : null} {this.state.endTurnButtonVisible? this.state.dice[1] : null}
+              {this.state.dice[1] && this.state.moveTokenButtonVisible? 'die2: ' : null} {this.state.moveTokenButtonVisible? this.state.dice[1] : null}
             </div>
             {/* <div>{this.state.diceSum}</div> */}
-            <div>{this.state.endTurnButtonVisible? this.state.diceSumComment : null}</div>
+            <div>{this.state.moveTokenButtonVisible? this.state.diceSumComment : null}</div>
           </div>
           <div className='doubles'>
-            {this.state.doublesComment}
+            {this.state.moveTokenButtonVisible ? this.state.doublesComment : null}
           </div>
 
           {
             this.state.diceRollButtonVisible?
               <button className='dice-roll-btn' onClick={() => { this.handleDiceRollButtonClick() }}>
               Roll Dice!
+              </button> : this.state.moveTokenButtonVisible?
+              <button className='move-token-btn' onClick={() => { this.handleMoveTokenButtonClick() }}>
+                Move Your Token!
               </button> : this.state.endTurnButtonVisible?
               <button className='end-turn-btn' onClick={() => { this.handleEndTurnButtonClick() }}>
                 End Turn.
               </button> : null
           }
 
+        </div>
+        <div className='UserMoney_div'>
+          {`Everyone's Money ${[this.state.userMoney]}`}
+        </div>
+        <div className='CurrentUser_div'>
+          <div className='CurrentUserMoney'>
+          {`You have: $${[this.state.userMoney][this.state.currentUser]}`}
+          </div>
+          <div className='CurrentUserProperties'>
+            {`You have: ${[this.state.userProperties][this.state.currentUser].length} properties`}
+            <div>
+              {this.state.userProperties[this.state.currentUser].forEach(e => {return e.PropertyObj.NAME})}
+            </div>
+          </div>
+          <div className='CurrentUserMoney'>
+            {`You have: $${[this.state.userMoney][this.state.currentUser]}`}
+          </div>
         </div>
         <div className='UserPositions'>
           <div className='CurrentUser'>
@@ -305,7 +476,8 @@ class DiceRoll extends Component {
 }
 
 DiceRoll.propTypes = {
-  dice: React.PropTypes.func.isRequired
+  dice: React.PropTypes.func.isRequired,
+  userMoney: React.PropTypes.func.isRequired,
 }
 
 export default DiceRoll

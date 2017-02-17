@@ -1,8 +1,8 @@
 import React from 'react'
 
 const Symbol = function (props) {
-  console.log('in symbol.js left = ', props.left, 'top = ', props.top)
-  console.log('money for user0', props.money)
+  // console.log('in symbol.js left = ', props.left, 'top = ', props.top)
+  // console.log('money for user0', props.money)
   const left = props.left
   const top = props.top
   const userNumber = props.userNumber

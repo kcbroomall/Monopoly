@@ -24,7 +24,7 @@ class Board extends Component {
 
   dice (userPositionsArray, userMoney) {
     console.log('pos array',userPositionsArray)
-    console.log('user Money', userMoney)
+    // console.log('user Money', userMoney)
     const location = [
       [97, 97], [97, 83], [97, 75], [97, 66.5], [97, 58.5], [97, 50], [97, 42], [97, 34], [97, 25.5], [97, 17.5], [97, 2.5],
       [84.5, 2.5], [76.4, 2.5], [68.2, 2.5], [60, 2.5], [51.8, 2.5], [43.5, 2.5], [35.4, 2.5], [27.1, 2.5], [19, 2.5], [7, 2.5],
@@ -47,7 +47,7 @@ class Board extends Component {
   render () {
     return (
       <div>
-        <DiceRoll dice={this.dice} />
+        <DiceRoll dice={this.dice} userMoney={this.userMoney} />
         <Player name='RJ' piece='Hat' />
         <div className='board parent'>
           <Symbol className='token0' left={`${this.state.user0[1]}%`} top={`${this.state.user0[0]}%`} userNumber={0} money={`${this.state.user0_money}`}/>

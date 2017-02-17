@@ -4,10 +4,12 @@
     font-family: 'Raleway', sans-serif;
 }
 .board {
-  position: relative;
+  position: fixed;
+  left: 0;
+  bottom: 0;
   display: flex;
   margin: 0 auto;
-  width: 80%;
+  width: 45%;
   border: 1px solid black;
   background-image: url('https://images-na.ssl-images-amazon.com/images/I/81oC5pYhh2L._SL1500_.jpg');
   background-size: contain ;
@@ -15,7 +17,7 @@
 }
 
 .board:after {
-   content: "";
+  content: "";
   display: block;
   padding-bottom: 100%;
 }
@@ -27,8 +29,8 @@
 }
 
 #tophat {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
 }
 
 .flexrow {

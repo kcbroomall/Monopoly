@@ -10,12 +10,13 @@ class Player extends Component {
       piece: props.piece,
       money: 1500,
       property: ['house'],
-      // property: [{'PropertyObj': {PropertyObj}, 'Mortaged': false, 'Houses': 0, 'Position': 0}],
+      // todo: property: [{'PropertyObj': {PropertyObj}, 'Mortaged': false, 'Houses': 0,
+      // 'Position': 0}],
       hasCommunityChestGetOutOfJailFree: false,
       hasChanceGetOutOfJailFree: false,
       userQueueNumber: 0,
       inJail: false,
-      // inJail: false, 1, 2,
+      // todo: inJail: false, 1, 2,
       turn: false
     }
     this.increaseFunds = this.increaseFunds.bind(this)
