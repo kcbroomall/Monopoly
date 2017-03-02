@@ -38,8 +38,6 @@ const Cards = (props) => {
       }
     }
     console.log('in cards.jsx #ofcards = ', numberOfCards)
-    let cardID = Math.floor((numberOfCards * Math.random()))
-    // let cardID = 15
 
     let cardID = Math.floor((numberOfCards * Math.random()))
     // let cardID = 8
