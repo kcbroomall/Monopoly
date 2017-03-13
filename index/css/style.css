@@ -1,0 +1,507 @@
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
+* {
+margin: 0;
+padding: 0;
+font-family: 'Helvetica', sans-serif;
+}
+
+.board {
+position: fixed;
+left: 1%;
+bottom: 1%;
+display: flex;
+margin: 0 auto;
+width: 45%;
+background-image: url('https://images-na.ssl-images-amazon.com/images/I/81oC5pYhh2L._SL1500_.jpg');
+background-size: contain;
+background-repeat: no-repeat;
+}
+
+.board:after {
+content: "";
+display: block;
+padding-bottom: 100%;
+}
+
+.symbol {
+position: absolute;
+z-index: 20;
+display: flex;
+}
+
+#tophat {
+width: 36px;
+height: 36px;
+background-color: currentColor;
+border-radius: 100%
+}
+
+#house {
+  height: 20%;
+  width: 24%;
+}
+
+.login-validation {
+  width: 100%!important;
+  background-color: rgba(255, 0, 0, .75);
+  border: solid red 1px;
+  margin: 0px 0px 5px 0px;
+  padding: 0!important;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+
+.flexrow {
+display: flex;
+flex-direction: row;
+flex-wrap: nowrap;
+width: 100%;
+height: 13%
+}
+
+.flexcol {
+display: flex;
+flex-direction: column;
+flex-wrap: nowrap;
+overflow: hidden;
+width: 100%;
+}
+
+.flexside {
+display: flex;
+flex-direction: column;
+flex-wrap: nowrap;
+overflow: auto;
+width: 13.5%;
+height: 100%;
+}
+
+.item-top {
+height: 100%;
+width: 100%;
+display: flex;
+align-items: flex-end
+}
+
+.item-left {
+height: 100%;
+width: 100%;
+display: flex;
+flex-flow: column wrap-reverse;
+}
+
+.item-right {
+height: 100%;
+width: 100%;
+display: flex;
+flex-flow: column
+}
+
+.item-bottom {
+height: 100%;
+width: 100%;
+display: flex
+}
+
+.col_item {
+height: 100px;
+width: 130px;
+}
+
+.flexmiddle {
+display: flex;
+flex-direction: row;
+flex-wrap: nowrap;
+width: 100%;
+height: 74%;
+justify-content: space-between;
+}
+
+.top {
+width: 160%;
+height: 100%;
+}
+
+.ui.vertical.segment:last-child {
+width: 40%;
+border-bottom: none;
+margin: auto;
+}
+
+.ui.container {
+padding-top: 145px;
+}
+
+.wire {
+display: flex;
+width: 100%;
+z-index: 10;
+height: 100%;
+position: absolute
+}
+
+.pcard {
+float: left;
+margin-left: 5px!important;
+width: 30%!important;
+padding-top: 0!important;
+}
+
+.chatBox {
+float: right;
+width: 17%!important;
+}
+
+.content {
+  width: 100%!important;
+}
+
+.button-enter {
+opacity: 0.01;
+}
+
+.button-enter.button-enter-active {
+opacity: 1;
+transition: opacity 500ms ease-in;
+}
+
+.button-leave {
+opacity: 1;
+}
+
+.button-leave.button-leave-active {
+opacity: 0.01;
+transition: opacity 300ms ease-in;
+}
+
+.Yellow {
+background-color: yellow
+}
+
+.Brown {
+background-color: Brown
+}
+
+.DarkBlue {
+background-color: darkblue
+}
+
+.LightBlue {
+background-color: lightblue
+}
+
+.Red {
+background-color: red
+}
+
+.Orange {
+background-color: Orange
+}
+
+.Green {
+background-color: Green
+}
+
+.Pink {
+background-color: Pink
+}
+
+.toastHistory {
+position: static;
+width: 76%!important;
+padding: 1%;
+background-color: aliceblue;
+overflow: auto;
+padding-top: 0!important
+}
+
+.left {
+width: 55%;
+float: right;
+margin-top: 5%;
+}
+
+#lobby {
+  margin-top: 100px;
+}
+
+.chatWindow {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.2);
+  background: #eef;
+}
+
+.oneChat {
+  list-style: none;
+  position: relative;
+	margin-bottom: 1em;
+	padding: 1.5em;
+	background: #fff;
+	border-radius: 2.1em;
+}
+
+.oneChat li {
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+}
+
+.panel-body {
+  overflow-y: auto;
+  height: 500px;
+}
+
+.onlinePlayers {
+  height: 250px;
+}
+
+.gameList {
+  height: 250px;
+}
+
+.right {
+width: 45%;
+height: 100%;
+}
+
+.ui.cards>.card {
+width: 45%
+}
+
+.ui.card>.extra,
+.ui.cards>.card>.extra {
+height: 100px;
+overflow: auto;
+}
+
+.CurrentUserProperties{
+  height: 100px;
+  overflow: auto;
+}
+
+.name {
+  margin: 0 auto;
+  font-family: 'Helvetica'!important
+}
+.video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  opacity: 0.8;
+  background-size: cover;
+}
+
+#videoContainer {
+  height: 100%;
+  background-size: cover;
+}
+
+#team {
+  height: 100%;
+}
+
+.landingForm {
+  position: relative;
+  top: 30%;
+  z-index: 2;
+  margin: 0 auto;
+}
+
+#keyword {
+  width: 560px;
+  padding: 20px 0 20px 10px;
+  height: 40px;
+}
+
+.marginTop {
+  margin-top: 80px;
+}
+
+.filterRow {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.selectpicker {
+  width: 150px;
+  height: 35px;
+  line-height: 35px;
+  margin: 5px 0;
+  padding: 0 15px 0 20px;
+  border-radius: 0;
+  letter-spacing: .25px;
+  overflow: hidden;
+}
+
+#lobby {
+  margin-top: 150px;
+}
+
+.chatWindow {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.2);
+  background: #eef;
+}
+
+.oneChat {
+  list-style: none;
+  position: relative;
+	margin-bottom: 1em;
+	padding: 1.5em;
+	background: #fff;
+	border-radius: 2.1em;
+}
+
+.oneChat li {
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+}
+
+.panel-body {
+  overflow-y: auto;
+  height: 500px;
+}
+
+.onlinePlayers {
+  height: 250px;
+}
+
+.gameList {
+  height: 250px;
+}
+
+.techPic {
+  width: 150px;
+  height: 150px;
+}
+
+.techPic2 {
+  width: 450px;
+  height: 150px;
+}
+
+.marginTech {
+  padding-top: 50px;
+}
+
+.social-space {
+  margin-right: 10px;
+}
+
+.ui list history {
+  margin: 1%
+}
+
+.title {
+  font-family: 'Helvetica'!important
+}
+
+.signout {
+  margin-top: 12px!important;
+  font-family: 'Helvetica'!important;
+  color: #333333!important
+}
+
+span {
+  font-family: 'Helvetica'!important;
+  text-transform: none!important;
+  font-weight: 0!important;
+  font-size: 20px!important;
+}
+
+.lobby {
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    border: 1px solid;
+    display: flex
+}
+
+.chat {
+  width: 60%;
+  height: 80%;
+}
+
+.users {
+  height: 300px;
+  margin: 10px;
+  width: 620px
+}
+
+.game {
+  height: 340px;
+  margin: 10px;
+  width: 620px;
+}
+
+.chat-container{
+  height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+}
+
+.paper-chat {
+  width: 100%;
+  height: 100%;
+  margin: 1%;
+  overflow: auto
+}
+
+.user-container {
+  width: 100%;
+    height: 100%;
+}
+
+.headers {
+  background-color: silver!important;
+}
+
+.messages {
+    width: 100%;
+    height: 560px;
+    overflow: auto
+}
+
+.show-games {
+  border: 1px solid;
+  height: 70%;
+  overflow: auto
+}
+
+.gameMenu {
+  margin-top: 0!important;
+  margin-bottom: 0!important;
+}
+
+.showMenuGame {
+  height: 88%;
+  overflow: auto
+}
+
+#right {
+  float: right
+}
+
+#left {
+  position: fixed;
+  left: 60%;
+}
+
+#hmm {
+  position: fixed;
+    left: 24%;
+    top: 29%;
+}
+
+.message {
+  padding: 0!important;
+    margin: 0!important;
+    height: 15%;
+}
+

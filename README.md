@@ -2,32 +2,21 @@
 
 This is everyone's favorite Monopoly game!
 
-# Code Example
-
-Show what the library does as concisely as possible, developers should be able to figure out how your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
-
 # Style-Guide
 
-Standard - JavaScript Style Guide
-https://cdn.rawgit.com/feross/standard/master/badge.svg
-https://github.com/feross/standard
-
-# Motivation
-
-A short description of the motivation behind the creation and maintenance of the project. This should explain why the project exists.
-
-# Installation
-
-Provide code examples and explanations of how to get the project.
-
-# Tests
-
-Describe and show how to run the tests with code examples.
+[![Standard - JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
 # Contributors
 
-Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.
+Please see our contributing page if you would like to add to this project.
 
-# License
+## Team
 
-A short snippet describing the license (MIT, Apache, etc.)
+[![Kyle Cameron](https://en.gravatar.com/userimage/118442393/7d6da3361381c777093bb160ae663822.jpg?size=200)](https://github.com/kcbroomall) | [![RJ Mohammad](https://en.gravatar.com/userimage/118442393/20f2b6715796ffdd60539d006aa25192.jpg?size=200)](https://github.com/rjmohammad) | [![Jinwei Lin](https://en.gravatar.com/userimage/118442393/8a62da5ece9af33e4cd7fabba53c9032.jpg?size=200)](https://github.com/jinweilin8)
+---|---|---
+[Kyle Cameron](https://github.com/kcbroomall) | [RJ Mohammad](https://github.com/rjmohammad) | [Jinwei Lin](https://github.com/jinweilin8)
+
+
+## License
+
+MIT © [ECMAScript Elephants](https://github.com/ecmascriptElephants)
