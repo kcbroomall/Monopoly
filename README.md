@@ -8,7 +8,7 @@ This is everyone's favorite Monopoly game!
 
 # Contributors
 
-Please see our contributing page if you would like to add to this project.
+Please see our [contributing page](contributing.md) if you would like to add to this project.
 
 # Team
 
